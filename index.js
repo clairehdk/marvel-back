@@ -5,6 +5,8 @@ require("dotenv").config();
 
 const comics = require("./routes/comics");
 const characters = require("./routes/characters");
+const user = require("./routes/user");
+app.use(user);
 app.use(comics);
 app.use(characters);
 
