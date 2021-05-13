@@ -1,7 +1,16 @@
 const express = require("express");
 const formidable = require("express-formidable");
+const mongoose = require("mongoose");
 const app = express();
+app.use(formidable());
 require("dotenv").config();
+
+mongoose.connect("mongodb://localhost/marvel", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
 
 const comics = require("./routes/comics");
 const characters = require("./routes/characters");
