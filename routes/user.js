@@ -42,6 +42,8 @@ router.post("/signup", async (req, res) => {
         res.status(200).json({
           _id: newUser.id,
           token: newUser.token,
+          email: newUser.email,
+          username: newUser.email,
         });
       } else {
         res.status(400).json("Veuillez remplir les champs manquants.");
@@ -67,7 +69,6 @@ router.post("/login", async (req, res) => {
             _id: user._id,
             token: user.token,
             email: user.email,
-            username: user.account.username,
           });
         } else {
           res.status(401).json({ error: "Unauthorized" });
