@@ -5,7 +5,7 @@ const app = express();
 app.use(formidable());
 require("dotenv").config();
 
-mongoose.connect("mongodb://localhost/marvel", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -25,6 +25,6 @@ app.all("*", (req, res) => {
   res.status(404).json("Page not found");
 });
 
-app.listen(3001, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log("Server started");
 });
