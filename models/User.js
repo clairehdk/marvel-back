@@ -9,10 +9,12 @@ const User = mongoose.model("User", {
     unique: true,
     type: String,
   },
-  favorites: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Favorite",
-  },
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Favorite",
+    },
+  ],
   token: String,
   hash: String,
   salt: String,

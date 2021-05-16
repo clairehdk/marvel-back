@@ -10,6 +10,7 @@ router.use(formidable());
 
 // Importer le model
 const User = require("../models/User");
+const Favorite = require("../models/Favorite");
 
 // Inscription
 router.post("/signup", async (req, res) => {
@@ -18,14 +19,12 @@ router.post("/signup", async (req, res) => {
 
     const userMail = await User.findOne({ email: email });
     const userName = await User.findOne({ username: username });
-
-    if (userMail) {
-      res.status(400).json("Ce mail est déjà lié à un compte.");
-      console.log(email);
-    } else if (userName) {
-      res.status(400).json("Cet identifiant est déjà pris.");
-    } else {
-      if ((email, username, password)) {
+    if ((email, username, password)) {
+      if (userMail) {
+        res.status(400).json("Ce mail est déjà lié à un compte.");
+      } else if (userName) {
+        res.status(400).json("Cet identifiant est déjà pris.");
+      } else {
         const token = uid2(64);
         const salt = uid2(64);
         const hash = SHA256(password + salt).toString(encBase64);
@@ -45,12 +44,12 @@ router.post("/signup", async (req, res) => {
           email: newUser.email,
           username: newUser.email,
         });
-      } else {
-        res.status(400).json("Veuillez remplir les champs manquants.");
       }
+    } else {
+      res.status(400).json("Veuillez remplir les champs manquants.");
     }
   } catch (error) {
-    res.status(400).json(error.message);
+    res.status(400).json(error.response);
   }
 });
 
@@ -71,16 +70,16 @@ router.post("/login", async (req, res) => {
             email: user.email,
           });
         } else {
-          res.status(401).json({ error: "Unauthorized" });
+          res.status(401).json("Unauthorized");
         }
       } else {
-        res.status(401).json({ error: "Unauthorized" });
+        res.status(401).json("Unauthorized");
       }
     } else {
-      res.status(400).json({ error: "Missing parameters" });
+      res.status(400).json("Veuillez remplir les champs manquants.");
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json(error.message);
   }
 });
 
